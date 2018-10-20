@@ -1,0 +1,600 @@
+/BATCH  
+! /COM,ANSYS RELEASE Release 18.2      BUILD 18.2.2    UP20170926       09:26:18  
+!/input,menust,tmp,''
+!WPSTYLE,,,,,,,,0
+/FILNAME,R43 Analysis R2,0 
+/TITLE,Suspension Loading Cases
+/UNITS,SI
+/CONFIG,NORSTRGM,1
+
+/PREP7  
+! Draw Keypoints
+
+! ANSYS Measures in METERS
+
+/INQUIRE,DIR,DIRECTORY--
+
+!/CWD,CDIR
+
+! Import from files
+/INPUT,'Base Frame','txt','Sketches',, 1
+/INPUT,'Main Roll Hoop 3D','txt','Sketches',, 1
+/INPUT,'Front Roll Hoop 3D','txt','Sketches',, 1
+/INPUT,'Front Roll Hoop Bracing','txt','Sketches',, 1
+/INPUT,'Main Roll Hoop Bracing','txt','Sketches',, 1
+/INPUT,'Rear Box Structure','txt','Sketches',, 1
+/INPUT,'Harness Bar','txt','Sketches',, 1
+/INPUT,'Control Arms-19-HDPT-STATIC','txt','Sketches',, 1
+/INPUT,'Suspension-19-HDPT-STATIC','txt','Sketches',, 1
+
+
+
+! Merge Coincident Points
+NUMMRG,KP,
+! KP Variable Names, ordered by Z axis, CCW
+! HDPTS
+H1 = 18
+H2 = 26
+H3 = 29
+H4 = 21
+H5 = 17
+H6 = 25
+H7 = 31
+H8 = 23
+H9 = 4
+H10 = 1
+H11 = 5
+H12 = 13
+H13 = 6
+H14 = 3
+H15 = 2
+H16 = 10
+
+
+! Shock Suspension Mounts
+! Similar Naming Scheme: right -> 1 left -> 2
+!                inboard -> 1 outboard -> 2
+SS11 = H3
+SS12 = 311
+SS21 = H4
+SS22 = 281
+
+SS31 = H11
+SS32 = 303
+SS41 = H12
+SS42 = 292
+
+! Bellcrank KP and Mounting
+! Naming Scheme: right -> 1 left -> 2
+!                inboard mount: M
+!                pivot: P ARB: A Shock: S
+BC1M = H7
+BC1P = 318
+BC1A = 316
+BC1S = 313
+BC2M = H8
+BC2P = 279
+BC2A = 284
+BC2S = 283
+
+BC3M = H15
+BC3P = 301
+BC3A = 307
+BC3S = 309
+BC4M = H16
+BC4P = 288
+BC4A = 293
+BC4S = 291
+
+! Control Arm Outboard Points
+! Naming Scheme same as HDPT
+CA1 = 266
+CA2 = 260
+CA3 = 263
+CA4 = 238
+CA5 = 249
+CA6 = 241
+CA7 = 248
+CA8 = 267
+
+! Front Bulkhead Points
+B1 = 39
+B2 = 34
+B3 = 38
+B4 = 37
+
+! Front Bracing Attachments
+FB1 = 135
+FB2 = 133
+
+! Side Impact Nodes
+SI1 = 57 ! Firewall Node
+SI2 = 60
+SI3 = 158 ! On MRH
+SI4 = 166
+SI5 = 49
+SI6 = 46
+
+! Shoulder Harness Nodes
+SH1 = 109   ! 1,4 lower
+SH4 = 108   ! 2,3 upper
+SH2 = 207
+SH3 = 210
+
+! Main Bracing Attachments
+MB1 = 98
+MB2 = 91
+
+! Main Roll Hoop Top
+MRHT = 215
+
+! Draw Lines, Manual
+! Front Bulkhead
+L,B1,B2                     !1
+L,B2,B3
+L,B3,B4
+L,B4,B1                     !4
+! Front Roll Hoop
+L,H7,110                    !5
+L,110,H6
+L,H6,113
+L,113,116
+L,116,FB2                   
+L,FB2,119                   !10
+L,119,122                   
+L,122,FB1
+L,FB1,125
+L,125,127
+L,127,H5
+L,H5,129
+L,129,H8
+! Main Roll Hoop
+L,SI5,79                    
+L,79,SI4                    
+L,SI4,82                    !20
+L,82,86
+L,86,SH4
+L,SH4,88
+L,88,SH3
+L,SH3,MB2                 
+L,MB2,93
+L,93,MRHT                   
+L,MRHT,96               
+L,96,MB1                    
+L,MB1,SH2                   !30
+L,SH2,99
+L,99,SH1                
+L,SH1,101
+L,101,103                    
+L,103,SI3               
+L,SI3,105
+L,105,SI6                   !37
+!Rear Box
+L,H12,H11                   !38
+L,H11,H10
+L,H10,H9                    !40
+L,H9,H12
+L,H16,53                   ! Rear Box to triangulation point
+L,53,H15
+L,H15,H14
+L,H14,H13                   
+L,H13,H16                   !46
+!! Remaining Front HDPT
+L,H3,H2                     !47
+L,H1,H4
+L,H4,H3
+L,H7,H8                     !50
+!! Front Structure
+L,B1,FB2                    !51
+L,B2,FB1
+L,B1,H1
+L,H1,H5
+L,B2,H2
+L,H2,H6                     
+L,B3,H3                     
+L,H3,H7
+L,B4,H4
+L,H4,H8                     !60
+L,B4,H1
+L,H4,H5
+L,B3,H2
+L,H3,H6
+L,H1,FB1                    
+L,H2,FB2                    !66
+! SIS Structure
+L,H5,SI3                    !67
+L,H6,SI4
+L,H7,SI1
+L,SI1,SI5                   !70
+L,H8,SI2
+L,SI2,SI6
+L,H5,SI2
+L,H6,SI1
+L,SI2,SI3
+L,SI1,SI4                   !76
+! Battery and Rear Box Structure
+L,SI3,H9                    !77
+L,SI4,H10
+L,SI5,H11
+L,SI6,H12                   !80
+L,H9,H13
+L,H10,H14
+L,H11,H15
+L,H12,H16
+L,SI3,H12
+L,H12,H13                   
+L,SI4,H11
+L,H11,H14                   !88
+! Main Roll Hoop Bracing
+L,MB1,H13                   !89
+L,MB2,H14                   !90
+! Shoulder Harness Bar
+L,SH3,227                   !91
+L,227,219
+L,219,226
+L,226,202                   
+L,202,223
+L,223,203
+L,203,214
+L,214,SH2                   !98
+L,219,SH4                   
+L,203,SH1                   !100
+!Rear Box Triangulation
+L,H13,53                    !101
+L,53,H14                    
+!Anti Decapitation Bars
+L,FB1,SI3                   !103
+L,FB2,SI4                   
+!Cockpit Support
+L,H8,SI1                    !105    ! Cockpit support 1
+L,SI1,SI2                   !       ! Seat support
+L,H8,H3                     !       ! Cockpit support 2
+L,SH4,SH1                   !108    ! Firewall/Shoulder harness bar
+!Shock Mounts
+L,SS11,SS12                 !109
+L,SS21,SS22                 !110
+L,SS31,SS32
+L,SS41,SS42                 !112
+!Bellcrank Mounts
+L,BC1M,BC1P                 !113
+L,BC2M,BC2P
+L,BC3M,BC3P
+L,BC4M,BC4P                 !116
+
+
+
+! Space for adjusting lines and KP
+! Keep testing here for access and clarity
+! Do not delete old testing. Comment it
+! Comments on every line that is added, pref. with unique code
+!L,H3,H6                 ! (HPDT) replace lines immediately after delete
+
+!/VIEW,1,1,, ! SIDE VIEW
+
+! Element Type 1 to BEAM188
+ET,1,BEAM188
+! Material Properties
+MPTEMP,1,0
+! Modulus of Elasticity
+MPDATA,EX,1,,205e9
+!MPDATA,EX,1,,ELAS(1)
+! Poisson's Ratio
+MPDATA,PRXY,1, ,.29
+! Section 1 (1x.095)
+SECTYPE,   1, BEAM, CTUBE, , 0  
+SECOFFSET, CENT
+SECDATA,0.010287,.0127,8
+! Section 2 (1x.065)
+SECTYPE,   2, BEAM, CTUBE, , 0  
+SECDATA,0.011049,.0127,8
+! Section 3 (1x.049)
+SECTYPE,   3, BEAM, CTUBE, , 0  
+SECDATA,0.0114554,.0127,8
+! Section 4 (1x.049 Sq)
+SECTYPE,   4, BEAM, HREC, , 0  
+SECDATA,0.0254,0.0254,0.0012446,0.0012446,0.0012446,0.0012446
+! Section 5 (1x.035)
+SECTYPE,   5, BEAM, CTUBE, , 0  
+SECDATA,0.011811,.0127,8
+! Section 6 (.5x.028)
+SECTYPE,   6, BEAM, CTUBE, , 0  
+SECDATA,0.0056388,0.00635,8
+
+!LSEL,A,LINE,,
+
+!Assign Elements to lines
+LESIZE,ALL,.02,         ! line mesh size
+ELEMP = 1               ! save prev num of elements for coloring
+ELEMN = 1
+
+! Create Groups for line selections
+
+LSEL,S,LINE,,1,4
+LSEL,A,LINE,,49,50
+LSEL,A,LINE,,106
+LSEL,A,LINE,,38
+LSEL,A,LINE,,42,43
+LSEL,A,LINE,,70,72,2
+LSEL,A,LINE,,79,80
+LSEL,A,LINE,,109,116
+CM, SQ049, LINE     ! SQ tubing
+
+LSEL,S,LINE,,5,37
+LSEL,A,LINE,,91,98
+CM, R1X095, LINE     ! 1X0.95 tubing
+
+LSEL,S,LINE,,51,52
+LSEL,A,LINE,,67,69
+LSEL,A,LINE,,71
+LSEL,A,LINE,,73,78
+LSEL,A,LINE,,85,87,2
+LSEL,A,LINE,,89,90
+CM, R1X065, LINE     ! 1X0.65 tubing
+
+LSEL,S,LINE,,51,66
+LSEL,A,LINE,,39,48
+LSEL,A,LINE,,81,88
+LSEL,A,LINE,,99,100
+LSEL,A,LINE,,101,102
+CM, R1X049, LINE     ! 1X0.49 tubing
+
+
+LSEL,S,LINE,,103,104
+LSEL,A,LINE,,108
+CM, R1X035, LINE     ! 1X0.35 tubing
+
+
+LSEL,S,LINE,,105,107,2
+CM, R5X028, LINE    ! .5X0.28 tubing
+
+! Adjust component definitions:
+! to add:
+! CMSEL, ,<name>, LSEL,A,..., CM,<same name>
+! to remove:
+! CMSEL, ,<name>, LSEL,U,..., CM,<same name>
+
+CMSEL, ,SQ049       ! Assign, Mesh, Color SQ tubing
+LATT,1, ,1, , , ,4
+LMESH,ALL
+*GET,ELEMN,ELEM,0,NUM,MAXD
+/COLOR,ELEM,BLUE,ELEMP,ELEMN
+ELEMP = ELEMN+1
+
+
+CMSEL, ,R1X095       ! Assign, Mesh, Color 0.95 tubing
+LATT,1, ,1, , , ,1
+LMESH,ALL
+*GET,ELEMN,ELEM,0,NUM,MAXD
+/COLOR,ELEM,DGRA,ELEMP,ELEMN
+ELEMP = ELEMN+1 
+
+CMSEL, ,R1X065       ! Assign, Mesh, Color 0.65 tubing
+LATT,1, ,1, , , ,2
+LMESH,ALL
+*GET,ELEMN,ELEM,0,NUM,MAXD
+/COLOR,ELEM,GREE,ELEMP,ELEMN
+ELEMP = ELEMN+1
+
+CMSEL, ,R1X049       ! Assign, Mesh, Color 0.49 tubing
+LATT,1, ,1, , , ,3
+LMESH,ALL
+*GET,ELEMN,ELEM,0,NUM,MAXD
+/COLOR,ELEM,RED,ELEMP,ELEMN
+ELEMP = ELEMN+1
+
+CMSEL, ,R1X035       ! Assign, Mesh, Color 0.35 tubing
+LATT,1, ,1, , , ,5
+LMESH,ALL
+*GET,ELEMN,ELEM,0,NUM,MAXD
+/COLOR,ELEM,ORAN,ELEMP,ELEMN
+ELEMP = ELEMN+1
+
+CMSEL, ,R5X028      ! Assign, Mesh, Color .5X.028 tubing
+LATT,1, ,1, , , ,6
+LMESH,ALL
+*GET,ELEMN,ELEM,0,NUM,MAXD
+/COLOR,ELEM,WHIT,ELEMP,ELEMN
+ELEMP = ELEMN
+
+LSEL,ALL
+
+! Plot Pretty Mesh
+EPLOT
+/VIEW,1, 1,1,1          ! ISO view
+/ESHAPE,1,1 
+
+! TODO: create multiple loading scenarios for max braking, acceleration, and braking
+
+! braking: load front shocks and 'control arms,' 
+! Numbers are positive in tension: force vectors from HDPT to CA, or from shock outboard to bellcrank shock pos
+! Shock force vector from bellcrank shock pos to end of shock mount, 
+! If modelling shocks/bellcrank mounts not from nodes, need to split frame members to create actual elements
+
+! Braking Load Case:
+! Mirror forces left to right of frame
+! Control Arm Force (lbf) Magnitudes:
+!   H1:549.33
+!   H4:-1281.2
+!   H9:138.84
+!   H12:1219
+! Shock Force (lbf) Magnitudes:
+!   SS12:-400
+!   SS32:400
+! Restrict DOF of rear sets of HDPTS (5,6,7,8;13,14,15,16)
+!DK,H5,ALL,0,0
+!DK,H6,ALL,0,0
+!DK,H7,ALL,0,0
+!DK,H8,ALL,0,0
+!DK,H13,ALL,0,0
+!DK,H14,ALL,0,0
+DK,H15,ALL,0,0
+DK,H16,ALL,0,0
+SFF = -17800          ! Shock Force 17800 N (C)
+SFR = -SFF          ! Shock Force Rear  (T)
+CFUF1 = 549.33*4.448    ! Control Arm Force in upper front member 1
+CFLF1 = -1281.2*4.448    ! Control Arm Force in lower front member 1
+CFUR1 = 138.84*4.448    ! Control Arm Force in upper rear member 1
+CFLR1 = 1219*4.448    ! Control Arm Force in lower rear member 1
+
+! From HDPT to C
+! Front Upper
+unitvector,H1,CA1    ! creates array U_VECT
+FK,H1,FX,U_VECT(1)*CFUF1        ! Apply force at H1 along Control Arm 1 
+FK,H1,FY,U_VECT(2)*CFUF1
+FK,H1,FZ,U_VECT(3)*CFUF1
+! Mirror along xy plane for right side
+FK,H2,FX,-U_VECT(1)*CFUF1        ! Apply force at H2 along Control Arm 1
+FK,H2,FY,U_VECT(2)*CFUF1
+FK,H2,FZ,U_VECT(3)*CFUF1
+
+! Front Lower
+unitvector,H4,CA4               ! H4
+FK,H4,FX,U_VECT(1)*CFLF1
+FK,H4,FY,U_VECT(2)*CFLF1
+FK,H4,FZ,U_VECT(2)*CFLF1
+! Mirror
+FK,H3,FX,-U_VECT(1)*CFLF1       ! H3
+FK,H3,FY,U_VECT(2)*CFLF1
+FK,H3,FZ,U_VECT(2)*CFLF1
+
+! Rear Upper
+unitvector,H9,CA5    ! creates array U_VECT
+FK,H9,FX,U_VECT(1)*CFUR1        
+FK,H9,FY,U_VECT(2)*CFUR1
+FK,H9,FZ,U_VECT(3)*CFUR1
+! Mirror
+FK,H10,FX,-U_VECT(1)*CFUR1     
+FK,H10,FY,U_VECT(2)*CFUR1
+FK,H10,FZ,U_VECT(3)*CFUR1
+
+! Rear Lower
+unitvector,H12,CA8
+FK,H12,FX,U_VECT(1)*CFLR1
+FK,H12,FY,U_VECT(2)*CFLR1
+FK,H12,FZ,U_VECT(2)*CFLR1
+! Mirror
+FK,H11,FX,-U_VECT(1)*CFLR1
+FK,H11,FY,U_VECT(2)*CFLR1
+FK,H11,FZ,U_VECT(2)*CFLR1
+
+! Shock Loading
+! Front Shocks
+unitvector,SS22,BC2S
+FK,SS22,FX,U_VECT(1)*SFF
+FK,SS22,FY,U_VECT(2)*SFF
+FK,SS22,FZ,U_VECT(3)*SFF
+! Mirror
+FK,SS12,FX,-U_VECT(1)*SFF
+FK,SS12,FY,U_VECT(2)*SFF
+FK,SS12,FZ,U_VECT(3)*SFF
+
+!Rear Shocks
+unitvector,SS42,BC4S
+FK,SS42,FX,U_VECT(1)*SFR
+FK,SS42,FY,U_VECT(2)*SFR
+FK,SS42,FZ,U_VECT(3)*SFR
+! Mirror
+FK,SS32,FX,-U_VECT(1)*SFR
+FK,SS32,FY,U_VECT(2)*SFR
+FK,SS32,FZ,U_VECT(3)*SFR
+
+LSWRITE,1       ! Write max braking load case
+FKDELE,ALL,ALL  ! Delete force loading
+DKDELE,ALL,ALL  ! Delete DOF Restrictions
+
+! 
+
+
+
+FINISH
+! Done with Preprocessing
+! Begin Solution
+/SOL
+! Start Analysis Structural
+ANTYPE,0
+LSREAD,1
+
+SOLVE
+FINISH
+!
+!/POST1
+!SET,LAST
+!! Get vertical displacement of front hardpoints
+!
+!! Torsional Rigidity Calculation For Front
+!SUM=0
+!PI=acos(-1)
+!*DIM,DISP,ARRAY,5,4     ! Disp = array of Left HDPTS (1,4,5,8)
+!! Done: Include Rear right hardpoints
+!
+!CNT=8                   ! Start from end, decrease
+!C=4                     ! Separate Array index
+!*DOWHILE,CNT            ! Do until CNT=0
+!KSEL,S,KP, ,H%CNT%      ! Get KP corresponding to HDPT CNT
+!NSLK,S,                 ! Select node from KP
+!N=NDNEXT(0)             ! Get num of node
+!KSEL,ALL
+!*GET,D,NODE,N,U,Y       ! Get Y displacement
+!*GET,X,KP,H%CNT%,LOC,X  ! Get X coord
+!*GET,Y,KP,H%CNT%,LOC,Y  ! Get Y coord
+!DISP(1,C)=D,X,Y         ! Set col of DISP to YDisp,XCoord,YCoord
+!
+!DISP(4,C)=ATAN(DISP(1,C)/DISP(2,C)*180/PI)  ! Calculate angular displacement
+!! TR calculation only takes into account SFORCE
+!! NOTE: SFORCE not in Y Direction, so SHOULD only be using SFORCE*SMF(2) or SFORCE*SMR(2)
+!! NOTE: Actual Torque is most likely 2*Force, because of reaction forces
+!DISP(5,C)=ABS((2*SMF(2)*SFORCE*DISP(2,C))/(DISP(4,C)))   ! Calculate TR
+!SUM=SUM+DISP(5,C)       ! Sum of TR
+!C=C-1                   ! Decrement C
+!CNT=CNT-1               ! Decrement CNT
+!*IF,CNT,EQ,7,THEN       ! Skip 7,6
+!CNT=5
+!*ELSEIF,CNT,EQ,3,THEN   ! Skip 2,3
+!CNT=1
+!*ENDIF
+!*ENDDO
+!
+!! TR Calculation for rear
+!SUMR = 0
+!*DIM,DISPR,ARRAY,5,4     ! Dispr = array of right rear HDPTS(10,11,14,15)
+!! 10,11,14,15
+!CNT=15                   ! Start from end, 15
+!C=4                     ! Separate Array index
+!*DOWHILE,CNT            ! Do until CNT=0
+!KSEL,S,KP, ,H%CNT%      ! Get KP corresponding to HDPT CNT
+!NSLK,S,                 ! Select node from KP
+!N=NDNEXT(0)             ! Get num of node
+!KSEL,ALL
+!*GET,D,NODE,N,U,Y       ! Get Y displacement
+!*GET,X,KP,H%CNT%,LOC,X  ! Get X coord
+!*GET,Y,KP,H%CNT%,LOC,Y  ! Get Y coord
+!DISPR(1,C)=D,X,Y         ! Set col of DISP to YDisp,XCoord,YCoord
+!
+!DISPR(4,C)=ATAN(DISPR(1,C)/DISPR(2,C)*180/PI)  ! Calculate angular displacement
+!! TR calculation only takes into account SFORCE
+!DISPR(5,C)=ABS((2*SMR(2)*SFORCE*DISPR(2,C))/(DISPR(4,C)))   ! Calculate TR
+!SUMR=SUMR+DISPR(5,C)       ! Sum of TR
+!C=C-1                   ! Decrement C
+!CNT=CNT-1               ! Decrement CNT
+!*IF,CNT,EQ,13,THEN       ! Skip 7,6
+!CNT=11
+!*ELSEIF,CNT,EQ,9,THEN   ! Skip 2,3
+!CNT=0
+!*ENDIF
+!*ENDDO
+!
+!! TODO: calculate TR as 'sum' of front and rear TR:
+!! Take average of angular displacements for front and back (DISP(4), DISPR(4)) and sum absvalue
+!! divide by torque developed 
+!
+!
+!TR=SUM/4                ! TR of Front HDPTS
+!
+!TRR=SUMR/4              ! TR of Rear HDPTS
+!
+!RHO=7.87e3              ! Density of 1020 steel in kgm^-3
+!ETABLE,EVOL,VOLU        ! get table of element volumes
+!SSUM                    ! Sum vol, store in next line
+!*GET,VTOT,SSUM, ,ITEM,EVOL
+!WT=RHO*VTOT*2.20462     ! Weight in lbs
+FINISH
